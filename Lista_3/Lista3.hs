@@ -117,6 +117,10 @@ binomial (n, k) =
     then 1
     else binomial (n -1, k) + binomial (n -1, k -1)
 
---Exercício 14
-
 --Exercício 15
+--A
+enumeracao :: Int -> Int -> [Int]
+enumeracao a b 
+  | a==b = a:[]
+  |a>b=[]
+  |otherwise=[a..b]
