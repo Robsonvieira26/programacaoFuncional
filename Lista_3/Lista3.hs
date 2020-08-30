@@ -57,9 +57,20 @@ n_tri n
   | n == 3 = 6
   | otherwise = n_tri (n -3) + n_tri (n -2) + n_tri (n -1)
 
--- Todo:Exercício 7
+--Exercício 7
 passo :: (Int, Int) -> (Int, Int)
 passo (x, y) = (y, x + y)
+
+auxiliarFibo :: Int -> (Int,Int)
+auxiliarFibo 1 = (1, 1)
+auxiliarFibo n = passo (auxiliarFibo (n-1))
+
+fibo2 :: Int -> Int
+fibo2 n = do
+    let (x, y) = auxiliarFibo n
+    x
+
+
 
 --Exercício 8
 potencia2 :: Int -> Int
@@ -68,10 +79,16 @@ potencia2 expo
   | otherwise = (2 * potencia2 (expo -1))
 
 --Exercício 9
+--A
 prodIntervalo :: Int -> Int -> Int
 prodIntervalo m n
   | m == n = n
   | otherwise = n * prodIntervalo m (n -1)
+--B
+fiboProdIntervalo :: Int -> Int
+fiboProdIntervalo  n
+  | 1 == n = n
+  | otherwise = n * fiboProdIntervalo  (n -1)
 
 --Exercício 11
 resto_div :: Int -> Int -> Int
