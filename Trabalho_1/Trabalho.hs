@@ -45,4 +45,46 @@ definirPassagem valorPassagem dataAtual dataNascimento
   | otherwise = valorPassagem
 
 --4
+listaPadrão :: [Integer]
+listaPadrão = [1 .. 15]
 
+--A
+gera1 :: [Integer]
+gera1 = [x ^ 2 | x <- listaPadrão, odd x, x > 4, x < 15]
+
+--B
+gera2 :: [(Integer, Integer)]
+gera2 = [(x, y) | x <- listaPadrão, x <= 4, y <- [x .. x * 2]]
+
+--C
+li :: [Integer]
+li = [10 .. 15]
+
+gera3 :: [[Integer]]
+gera3 = [[1 .. y] | y <- li]
+
+--D
+gera4 :: [(Integer, Integer)]
+gera4 = [(x, x + 1) | x <- [1 .. 16], odd x]
+
+--E
+gera5 :: [Integer]
+gera5 = [x + y | (x, y) <- gera4]
+
+--5
+
+--6
+-- distancias :: [(Float, Float)] ->[Float]
+-- distancias [] = []
+-- distancias ((x,y):xys) = (sqrt(x^2+y^2)) : distancias (xys)
+
+--7
+fatores :: Int -> [Int]
+fatores n = [x | x <- [1 .. n], n `mod` x == 0]
+
+primos :: Int ->Int-> [Int]
+primos ini fim = [n| n<-[ini..fim],(fatores n) == [1, n]]
+
+--7
+fizzbuzz ::Int -> [String]
+fizzbuzz n = ["n"]
