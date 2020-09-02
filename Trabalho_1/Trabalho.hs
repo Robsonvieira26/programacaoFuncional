@@ -115,10 +115,24 @@ fizzbuzz n
   | n `mod` 5 == 0 = "Buzz"
   | otherwise = show n
 
+--11
+contaOcorrencias1::Int->[Int]->Int
+contaOcorrencias1 x [] = 0
+contaOcorrencias1 x (y:ys)
+  | x==y = 1+(contaOcorrencias1 x ys)
+  | otherwise = contaOcorrencias1 x ys
+
+conta_ocorrencias :: Int -> Int -> [Int] -> (Int, Int)
+conta_ocorrencias valor1 valor2 lista1 = (contaOcorrencias1 valor1 lista1, contaOcorrencias1 valor2 lista1)
+
+--12
+unica_ocorrencia :: Int -> [Int] -> Bool
+unica_ocorrencia x lista =
+  if ((contaOcorrencias1 x lista ) == 1)
+    then True
+    else False
 
 --13
---Pode ser de qqr tipo
-intercala :: [a] -> [a] -> [a]
 intercala x [] = x
 intercala [] x = x
 intercala (a : xs) (b : ys) = a : b : intercala xs ys
