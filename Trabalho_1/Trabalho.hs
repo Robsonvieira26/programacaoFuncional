@@ -71,9 +71,17 @@ gera4 = [(x, x + 1) | x <- [1 .. 16], odd x]
 gera5 :: [Integer]
 gera5 = [x + y | (x, y) <- gera4]
 
---5
 
---6
+--5
+--a)
+contaNegM2 :: [Int] -> Int
+contaNegM2 li = length [ x | x <- li, x < 0, x `mod` 2 == 0]
+
+--b)
+listaNegM2 :: [Int] -> [Int]
+listaNegM2 li = [ x | x <- li, x < 0, x `mod` 2 == 0]
+
+--TODO:6
 -- distancias :: [(Float, Float)] ->[Float]
 -- distancias [] = []
 -- distancias ((x,y):xys) = (sqrt(x^2+y^2)) : distancias (xys)
@@ -82,9 +90,29 @@ gera5 = [x + y | (x, y) <- gera4]
 fatores :: Int -> [Int]
 fatores n = [x | x <- [1 .. n], n `mod` x == 0]
 
-primos :: Int ->Int-> [Int]
-primos ini fim = [n| n<-[ini..fim],(fatores n) == [1, n]]
+primos :: Int -> Int -> [Int]
+primos ini fim = [n | n <- [ini .. fim], (fatores n) == [1, n]]
 
---7
-fizzbuzz ::Int -> [String]
-fizzbuzz n = ["n"]
+--8
+mdc2 :: Int -> Int -> Int
+mdc2 a b
+  | a < b = mdc2 b a
+  | b == 0 = a
+  | otherwise = mdc2 b (mod a b)
+
+mmc2 :: Int -> Int -> Int
+mmc2 x y = (x * y) `div` (mdc2 x y)
+
+mmc :: Int -> Int -> Int -> Int
+mmc x y z = mmc2 x (mmc2 y z)
+
+--TODO:9
+
+
+--10
+fizzbuzz :: Int -> String
+fizzbuzz n
+  | n `mod` 15 == 0 = "FizzBuzz"
+  | n `mod` 3 == 0 = "Fizz"
+  | n `mod` 5 == 0 = "Buzz"
+  | otherwise = show n
