@@ -71,15 +71,14 @@ gera4 = [(x, x + 1) | x <- [1 .. 16], odd x]
 gera5 :: [Integer]
 gera5 = [x + y | (x, y) <- gera4]
 
-
 --5
 --a)
 contaNegM2 :: [Int] -> Int
-contaNegM2 li = length [ x | x <- li, x < 0, x `mod` 2 == 0]
+contaNegM2 li = length [x | x <- li, x < 0, x `mod` 2 == 0]
 
 --b)
 listaNegM2 :: [Int] -> [Int]
-listaNegM2 li = [ x | x <- li, x < 0, x `mod` 2 == 0]
+listaNegM2 li = [x | x <- li, x < 0, x `mod` 2 == 0]
 
 --TODO:6
 -- distancias :: [(Float, Float)] ->[Float]
@@ -108,7 +107,6 @@ mmc x y z = mmc2 x (mmc2 y z)
 
 --TODO:9
 
-
 --10
 fizzbuzz :: Int -> String
 fizzbuzz n
@@ -116,3 +114,23 @@ fizzbuzz n
   | n `mod` 3 == 0 = "Fizz"
   | n `mod` 5 == 0 = "Buzz"
   | otherwise = show n
+
+
+--13
+--Pode ser de qqr tipo
+intercala :: [a] -> [a] -> [a]
+intercala x [] = x
+intercala [] x = x
+intercala (a : xs) (b : ys) = a : b : intercala xs ys
+
+--16
+insere_ord :: Ord t => t -> [t] -> [t]
+insere_ord x [] = [x]
+insere_ord x (y : ys)
+  | x <= y = (x : y : ys)
+  | otherwise = y : (insere_ord x ys)
+
+--17
+reverte :: [a] -> [a]
+reverte [] = []
+reverte (x : xs) = (reverte xs) ++ [x]
