@@ -1,7 +1,7 @@
 --1
 somaAngulos :: Float -> Float -> Float -> Bool
 somaAngulos x y z =
-  if ((x + y + z) == 180)
+  if ((x + y + z) == 180 || (x /= 0 && y /= 0 && z /= 0))
     then True
     else False
 
@@ -57,15 +57,13 @@ gera2 :: [(Integer, Integer)]
 gera2 = [(x, y) | x <- listaPadrão, x <= 4, y <- [x .. x * 2]]
 
 --C
-li :: [Integer]
-li = [10 .. 15]
 
 gera3 :: [[Integer]]
-gera3 = [[1 .. y] | y <- li]
+gera3 = [[1 .. y] | y <- listaPadrão, y >= 10, y <= 15]
 
 --D
 gera4 :: [(Integer, Integer)]
-gera4 = [(x, x + 1) | x <- [1 .. 16], odd x]
+gera4 = [(x, x + 1) | x <- listaPadrão, odd x]
 
 --E
 gera5 :: [Integer]
@@ -80,10 +78,10 @@ contaNegM2 li = length [x | x <- li, x < 0, x `mod` 2 == 0]
 listaNegM2 :: [Int] -> [Int]
 listaNegM2 li = [x | x <- li, x < 0, x `mod` 2 == 0]
 
---TODO:6
--- distancias :: [(Float, Float)] ->[Float]
--- distancias [] = []
--- distancias ((x,y):xys) = (sqrt(x^2+y^2)) : distancias (xys)
+--6
+distancias :: [(Float, Float)] -> [Float]
+distancias [] = []
+distancias ((x, y) : tailX) = [raiz | raiz <- (sqrt (x ** 2 + y ** 2)) : (distancias tailX)]
 
 --7
 fatores :: Int -> [Int]
@@ -108,19 +106,23 @@ mmc x y z = mmc2 x (mmc2 y z)
 --TODO:9
 
 --10
-fizzbuzz :: Int -> String
-fizzbuzz n
-  | n `mod` 15 == 0 = "FizzBuzz"
-  | n `mod` 3 == 0 = "Fizz"
-  | n `mod` 5 == 0 = "Buzz"
-  | otherwise = show n
+auxFiz :: Int -> [String]
+auxFiz n
+  | n == 0 = []
+  | mod n 3 == 0 && mod n 5 == 0 = "FizzBuzz" : auxFiz (n -1)
+  | mod n 3 == 0 = "Fizz" : auxFiz (n -1)
+  | mod n 5 == 0 = "Buzz" : auxFiz (n -1)
+  | otherwise = "No" : auxFiz (n -1)
+
+fizzbuzz :: Int -> [String]
+fizzbuzz x = reverse (auxFiz x)
 
 --11
-contaOcorrencias1::Int->[Int]->Int
+contaOcorrencias1 :: Int -> [Int] -> Int
 contaOcorrencias1 x [] = 0
-contaOcorrencias1 x (y:ys)
-  | x==y = 1+(contaOcorrencias1 x ys)
-  | otherwise = contaOcorrencias1 x ys
+contaOcorrencias1 x (y : tailY)
+  | x == y = 1 + (contaOcorrencias1 x tailY)
+  | otherwise = contaOcorrencias1 x tailY
 
 conta_ocorrencias :: Int -> Int -> [Int] -> (Int, Int)
 conta_ocorrencias valor1 valor2 lista1 = (contaOcorrencias1 valor1 lista1, contaOcorrencias1 valor2 lista1)
@@ -128,7 +130,7 @@ conta_ocorrencias valor1 valor2 lista1 = (contaOcorrencias1 valor1 lista1, conta
 --12
 unica_ocorrencia :: Int -> [Int] -> Bool
 unica_ocorrencia x lista =
-  if ((contaOcorrencias1 x lista ) == 1)
+  if ((contaOcorrencias1 x lista) == 1)
     then True
     else False
 
@@ -137,14 +139,85 @@ intercala x [] = x
 intercala [] x = x
 intercala (a : xs) (b : ys) = a : b : intercala xs ys
 
+-- 14 Feito em monitoria
+type Contato = (String, String, String, String)
+
+contatos :: [Contato]
+contatos =
+  [ ("Nome1", "Ender1", "Tel1", "Email1"),
+    ("Nome2", "Ender2", "Tel2", "Email2"),
+    ("Nome3", "Ender3", "Tel3", "Email3")
+  ]
+
+encontraContatoAux :: [Contato] -> String -> String
+encontraContatoAux [] email = "Email nao encontrado"
+encontraContatoAux ((nome, _, _, emailInput) : outrosElementos) email
+  | emailInput == email = nome
+  | otherwise = encontraContatoAux outrosElementos email
+
+encontraContato :: String -> String
+encontraContato emailEncontrar = encontraContatoAux contatos emailEncontrar
+
+--15
+type Pessoa = (String, Float, Int, Char)
+
+pessoas :: [Pessoa]
+pessoas =
+  [ ("João", 1.85, 26, 'C'),
+    ("Maria", 1.55, 62, 'S'),
+    ("Jose", 1.78, 42, 'C'),
+    ("Paulo", 1.93, 25, 'S'),
+    ("Clara", 1.70, 33, 'C'),
+    ("Bob", 1.45, 21, 'C'),
+    ("Rosana", 1.58, 39, 'S'),
+    ("Daniel", 1.74, 72, 'S'),
+    ("Jocileide", 1.69, 18, 'S')
+  ]
+
+--Altura media
+mediaAltura :: [Pessoa] -> Float
+mediaAltura lista = (somaAltura lista) / fromIntegral (length lista) :: Float
+
+somaAltura :: [Pessoa] -> Float
+somaAltura [] = 0
+somaAltura ((nome, altura, idade, estado) : tail) = altura + (somaAltura tail)
+
+---Idade da pessoa mais nova
+
+criaListaComIdades :: [Pessoa] -> [Int]
+criaListaComIdades [] = []
+criaListaComIdades ((nome, altura, idade, estado) : tail) = [id | id <- idade : (criaListaComIdades tail)]
+
+idMaisNova :: [Pessoa] -> Int
+idMaisNova lista = minimum (criaListaComIdades lista)
+
+--Estado civil Mais velho
+idMaisVelha :: [Pessoa] -> Int
+idMaisVelha lista = maximum (criaListaComIdades lista)
+
+encontraMaisVelhoAux :: [Pessoa] -> Int -> (String, Char)
+encontraMaisVelhoAux [] idadeIn = ("", ' ')
+encontraMaisVelhoAux ((nome, _, idade, estadoCiv) : outrosElementos) idadeIn
+  | idadeIn == idade = (nome, estadoCiv)
+  | otherwise = encontraMaisVelhoAux outrosElementos idadeIn
+
+encontraMaisVelho :: [Pessoa] -> (String, Char)
+encontraMaisVelho lista = encontraMaisVelhoAux pessoas (idMaisVelha lista)
+
+--Pessoas com mais de 50
+pessoasMelhorIdade lista =
+  [(nome, altura, idade, estado) | (nome, altura, idade, estado) <- lista, idade >= 50]
+
+--casados com mais de 50
+pessoasCasadasMaiorX lista x =
+  [(nome, altura, idade, estado) | (nome, altura, idade, estado) <- lista, idade >= x, estado == 'C']
+
 --16
-insere_ord :: Ord t => t -> [t] -> [t]
 insere_ord x [] = [x]
 insere_ord x (y : ys)
   | x <= y = (x : y : ys)
   | otherwise = y : (insere_ord x ys)
 
 --17
-reverte :: [a] -> [a]
 reverte [] = []
 reverte (x : xs) = (reverte xs) ++ [x]
