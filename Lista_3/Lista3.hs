@@ -63,14 +63,9 @@ n_tri n = n + n_tri (n -1)
 passo :: (Int, Int) -> (Int, Int)
 passo (x, y) = (y, x + y)
 
-auxiliarFibo :: Int -> (Int, Int)
-auxiliarFibo 1 = (1, 1)
-auxiliarFibo n = passo (auxiliarFibo (n -1))
-
-fibo2 :: Int -> Int
-fibo2 n = do
-  let (x, y) = auxiliarFibo n
-  x
+fibo2 :: Int -> (Int, Int)
+fibo2 0 = (0, 1)
+fibo2 n = passo (fibo2 (n -1))
 
 --Exercício 8
 potencia2 :: Int -> Int
