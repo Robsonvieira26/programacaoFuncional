@@ -42,9 +42,9 @@ fatorial 0 = 1
 fatorial n = n * fatorial (n -1)
 
 fatorialG :: Int -> Int
-fatorialG x 
-  | x==0 =  1
-  | otherwise= x * fatorialG (x-1)
+fatorialG x
+  | x == 0 = 1
+  | otherwise = x * fatorialG (x -1)
 
 --Exercício 5
 fibo :: Int -> Int
@@ -55,27 +55,22 @@ fibo n
 
 --Exercício 6
 n_tri :: Int -> Int
-n_tri n
-  | n == 0 = 0
-  | n == 1 = 1
-  | n == 2 = 3
-  | n == 3 = 6
-  | otherwise = n_tri (n -3) + n_tri (n -2) + n_tri (n -1)
+n_tri 0 = 0
+n_tri 1 = 1
+n_tri n = n + n_tri (n -1)
 
 --Exercício 7
 passo :: (Int, Int) -> (Int, Int)
 passo (x, y) = (y, x + y)
 
-auxiliarFibo :: Int -> (Int,Int)
+auxiliarFibo :: Int -> (Int, Int)
 auxiliarFibo 1 = (1, 1)
-auxiliarFibo n = passo (auxiliarFibo (n-1))
+auxiliarFibo n = passo (auxiliarFibo (n -1))
 
 fibo2 :: Int -> Int
 fibo2 n = do
-    let (x, y) = auxiliarFibo n
-    x
-
-
+  let (x, y) = auxiliarFibo n
+  x
 
 --Exercício 8
 potencia2 :: Int -> Int
@@ -89,11 +84,12 @@ prodIntervalo :: Int -> Int -> Int
 prodIntervalo m n
   | m == n = n
   | otherwise = n * prodIntervalo m (n -1)
+
 --B
 fiboProdIntervalo :: Int -> Int
-fiboProdIntervalo  n
+fiboProdIntervalo n
   | 1 == n = n
-  | otherwise = n * fiboProdIntervalo  (n -1)
+  | otherwise = n * fiboProdIntervalo (n -1)
 
 --Exercício 11
 resto_div :: Int -> Int -> Int
@@ -142,7 +138,7 @@ binomial (n, k) =
 --Exercício 15
 --A
 enumeracao :: Int -> Int -> [Int]
-enumeracao a b 
-  | a==b = a:[]
-  |a>b=[]
-  |otherwise=[a..b]
+enumeracao a b
+  | a == b = a : []
+  | a > b = []
+  | otherwise = [a .. b]
