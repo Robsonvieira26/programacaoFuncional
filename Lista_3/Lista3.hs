@@ -41,9 +41,10 @@ fatorial :: Int -> Int
 fatorial 0 = 1
 fatorial n = n * fatorial (n -1)
 
-fatorialIf :: Int -> Int
-fatorialIf x = if(x==0) then 1
-            else (x*fatorialIf (x-1))
+fatorialG :: Int -> Int
+fatorialG x 
+  | x==0 =  1
+  | otherwise= x * fatorialG (x-1)
 
 --Exercício 5
 fibo :: Int -> Int
