@@ -103,7 +103,12 @@ mmc2 x y = (x * y) `div` (mdc2 x y)
 mmc :: Int -> Int -> Int -> Int
 mmc x y z = mmc2 x (mmc2 y z)
 
---TODO:9
+--9
+serieX :: Float -> Int -> Float
+serieX x n
+ | n == 1 = 1 / x
+ | even n = (x / fromIntegral(n)) + (serieX x (n-1))
+ | otherwise = (fromIntegral(n) / x) + (serieX x (n-1))
 
 --10
 auxFiz :: Int -> [String]
@@ -221,3 +226,22 @@ insere_ord x (y : ys)
 --17
 reverte [] = []
 reverte (x : xs) = (reverte xs) ++ [x]
+
+--18
+membro x [] = False
+membro x (head : tail)
+  | x == head = True
+  | otherwise = membro x tail
+
+sem_repetidos [] = []
+sem_repetidos (x : tail)
+  | membro x tail = sem_repetidos (tail)
+  | otherwise = x : sem_repetidos (tail)
+
+--19
+disponiveis :: [Int]
+disponiveis = [1, 2, 5, 10, 20, 50, 100]
+
+notasTroco :: Int -> [[Int]]
+notasTroco 0 = [[]]
+notasTroco valor = [head : tail | head <- disponiveis, head <= valor, tail <- notasTroco (valor - head)]
