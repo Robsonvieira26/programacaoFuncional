@@ -137,3 +137,6 @@ enumeracao a b
   | a == b = a : []
   | a > b = []
   | otherwise = [a .. b]
+
+enumeracaoAberto :: Int -> Int -> [Int]
+enumeracaoAberto a b = [(a+1)..(b-1)]
