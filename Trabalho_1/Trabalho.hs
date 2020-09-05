@@ -106,9 +106,9 @@ mmc x y z = mmc2 x (mmc2 y z)
 --9
 serieX :: Float -> Int -> Float
 serieX x n
- | n == 1 = 1 / x
- | even n = (x / fromIntegral(n)) + (serieX x (n-1))
- | otherwise = (fromIntegral(n) / x) + (serieX x (n-1))
+  | n == 1 = 1 / x
+  | even n = (x / fromIntegral (n)) + (serieX x (n -1))
+  | otherwise = (fromIntegral (n) / x) + (serieX x (n -1))
 
 --10
 auxFiz :: Int -> [String]
@@ -140,6 +140,7 @@ unica_ocorrencia x lista =
     else False
 
 --13
+intercala :: [a] -> [a] -> [a]
 intercala x [] = x
 intercala [] x = x
 intercala (a : xs) (b : ys) = a : b : intercala xs ys
@@ -207,7 +208,7 @@ encontraMaisVelhoAux ((nome, _, idade, estadoCiv) : outrosElementos) idadeIn
   | otherwise = encontraMaisVelhoAux outrosElementos idadeIn
 
 encontraMaisVelho :: [Pessoa] -> (String, Char)
-encontraMaisVelho lista = encontraMaisVelhoAux pessoas (idMaisVelha lista)
+encontraMaisVelho lista = encontraMaisVelhoAux lista (idMaisVelha lista)
 
 --Pessoas com mais de 50
 pessoasMelhorIdade lista =
@@ -218,21 +219,25 @@ pessoasCasadasMaiorX lista x =
   [(nome, altura, idade, estado) | (nome, altura, idade, estado) <- lista, idade >= x, estado == 'C']
 
 --16
+insere_ord :: Ord t => t -> [t] -> [t]
 insere_ord x [] = [x]
 insere_ord x (y : ys)
   | x <= y = (x : y : ys)
   | otherwise = y : (insere_ord x ys)
 
 --17
+reverte :: [a] -> [a]
 reverte [] = []
-reverte (x : xs) = (reverte xs) ++ [x]
+reverte (head : tail) = (reverte tail) ++ [head]
 
 --18
+membro :: Eq t => t -> [t] -> Bool
 membro x [] = False
 membro x (head : tail)
   | x == head = True
   | otherwise = membro x tail
 
+sem_repetidos :: Eq a => [a] -> [a]
 sem_repetidos [] = []
 sem_repetidos (x : tail)
   | membro x tail = sem_repetidos (tail)
