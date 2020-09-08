@@ -1,3 +1,5 @@
+--Alunos:
+--Loredana Devico e Robson Roberto
 --1
 somaAngulos :: Float -> Float -> Float -> Bool
 somaAngulos x y z =
@@ -147,10 +149,14 @@ intercala (a : xs) (b : ys) = a : b : intercala xs ys
 
 -- 14 Feito em monitoria
 type Nome = String
-type Endereço = String 
+
+type Endereço = String
+
 type Telefone = Int
+
 type Email = String
-type Contato = (Nome, Endereço,Telefone , Email)
+
+type Contato = (Nome, Endereço, Telefone, Email)
 
 contatos :: [Contato]
 contatos =
