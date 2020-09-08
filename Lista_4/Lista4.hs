@@ -1,10 +1,14 @@
 --1)
+lst1 :: [Integer]
 lst1 = [x * 2 | x <- [1 .. 10], x * 2 >= 12]
 
+lst2 :: [Integer]
 lst2 = [x | x <- [50 .. 100], mod x 7 == 3]
 
+lst3 :: [Integer]
 lst3 = [x | x <- [10 .. 20], x /= 13, x /= 15, x /= 19]
 
+lst4 :: [(Integer, Integer)]
 lst4 = [(x, y) | x <- [1 .. 4], y <- [x .. 5]]
 
 --2)
@@ -16,6 +20,7 @@ seleciona_impares :: [Int] -> [Int]
 seleciona_impares lista = [x | x <- lista, odd x]
 
 --4)
+tabuada :: Int -> [Int]
 tabuada x = [x * cont | cont <- [1 .. 10]]
 
 --5)
@@ -28,7 +33,9 @@ bissexto ano
 bissextos :: [Int] -> [Int]
 bissextos lista = [x | x <- lista, bissexto x]
 
---TODO: 6)sublistas
+--6)sublistas
+sublistas :: [[Int]] -> [Int]
+sublistas lst = [x | elem<-lst, x<-elem]
 
 --7)
 type Data = (Int, Int, Int)
@@ -76,7 +83,11 @@ produtorio::[Int] -> Int
 produtorio [] = 1
 produtorio (head : tail) = head * produtorio tail
 
---todo 10) unzip
+--10)
+comprime :: [[a]] -> [a]
+comprime [[]] = []
+comprime ([]:ys) = comprime ys
+comprime ((x:xs):ys) = x:(comprime (xs:ys))
 
 --11)
 tamanho :: [a] -> Int

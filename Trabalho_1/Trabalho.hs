@@ -146,17 +146,21 @@ intercala [] x = x
 intercala (a : xs) (b : ys) = a : b : intercala xs ys
 
 -- 14 Feito em monitoria
-type Contato = (String, String, String, String)
+type Nome = String
+type Endereço = String 
+type Telefone = Int
+type Email = String
+type Contato = (Nome, Endereço,Telefone , Email)
 
 contatos :: [Contato]
 contatos =
-  [ ("Nome1", "Ender1", "Tel1", "Email1"),
-    ("Nome2", "Ender2", "Tel2", "Email2"),
-    ("Nome3", "Ender3", "Tel3", "Email3")
+  [ ("Nome1", "Ender1", 1, "Email1"),
+    ("Nome2", "Ender2", 2, "Email2"),
+    ("Nome3", "Ender3", 3, "Email3")
   ]
 
 encontraContatoAux :: [Contato] -> String -> String
-encontraContatoAux [] email = "Email nao encontrado"
+encontraContatoAux [] email = "Email Desconhecido"
 encontraContatoAux ((nome, _, _, emailInput) : outrosElementos) email
   | emailInput == email = nome
   | otherwise = encontraContatoAux outrosElementos email
