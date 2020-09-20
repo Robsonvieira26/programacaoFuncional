@@ -161,10 +161,14 @@ fatInterLet n =
 
 -- 3) Arquivo .txt
 -- 4) Arquivo .png
--- 5)
---a) (\x -> \y -> y) ((\z -> z) (\z -> z)) (\w -> w) 5
---b) ((\f-> (\x -> f (f x))) (\y -> (y * y ))) 3
---TODO:conferir o erro c) ((\f-> (\x-> f(f x))) (\y-> (+ y y))) 5
---TODO:conferir o erro d) ((\x-> (\y-> + x y) 5) ((\y-> - y 3) 7))
---e) (((\f-> (\x-> f(f(f x)))) (\y-> (y * y))) 2)
---TODO:conferir o erro f) (\x-> \y-> + x ((\x-> - x 3) y)) 5 6
+
+{-
+ 5) teste no ghci em arquivos .png
+a) (\x -> \y -> y) ((\z -> z) (\z -> z)) (\w -> w) 5
+b) ((\f-> (\x -> f (f x))) (\y -> (y * y ))) 3
+c) ((\f-> (\x-> f(f x))) (\y-> (+ y y))) 5
+d) ((\x-> (\y-> + x y) 5) ((\y-> - y 3) 7))
+e) (((\f-> (\x-> f(f(f x)))) (\y-> (y * y))) 2)
+f) (\x-> \y-> + x ((\x-> - x 3) y)) 5 6
+
+-}
