@@ -3,7 +3,7 @@
 --1
 somaAngulos :: Float -> Float -> Float -> Bool
 somaAngulos x y z =
-  if ((x + y + z) == 180 || (x /= 0 && y /= 0 && z /= 0))
+  if ((x + y + z) == 180 && (x /= 0 && y /= 0 && z /= 0))
     then True
     else False
 
