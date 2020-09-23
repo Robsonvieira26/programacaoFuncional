@@ -162,13 +162,21 @@ fatInterLet n =
 -- 3) Arquivo .txt
 -- 4) Arquivo .png
 
-{-
- 5) teste no ghci em arquivos .png
-a) (\x -> \y -> y) ((\z -> z) (\z -> z)) (\w -> w) 5
-b) ((\f-> (\x -> f (f x))) (\y -> (y * y ))) 3
-c) ((\f-> (\x-> f(f x))) (\y-> (+ y y))) 5
-d) ((\x-> (\y-> + x y) 5) ((\y-> - y 3) 7))
-e) (((\f-> (\x-> f(f(f x)))) (\y-> (y * y))) 2)
-f) (\x-> \y-> + x ((\x-> - x 3) y)) 5 6
+--5) teste no ghci em arquivos .png
+questao1 :: Integer
+questao1 = (\x -> \y -> y) ((\z -> z) (\z -> z)) (\w -> w) 5
 
--}
+questao2 :: Integer
+questao2 = ((\f -> (\x -> f (f x))) (\y -> (y * y))) 3
+
+questao3 :: Integer
+questao3 = ((\f -> (\x -> f (f x))) (\y -> (y + y))) 5
+
+questao4 :: Integer
+questao4 = ((\x -> (\y -> x + y) 5) ((\y -> y -3) 7))
+
+questao5 :: Integer
+questao5 = (((\f -> (\x -> f (f (f x)))) (\y -> (y * y))) 2)
+
+questao6 :: Integer
+questao6 = (\x -> \y -> x + ((\x -> x - 3) y)) 5 6
