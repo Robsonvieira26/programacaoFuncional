@@ -126,10 +126,175 @@ insereOrd x (y : ys)
   | x <= y = (x : y : ys)
   | otherwise = y : (insereOrd x ys)
 
+--Quick
 myQuicksort :: (Ord a) => [a] -> [a]
 myQuicksort [] = []
 myQuicksort (s : xs) = myQuicksort [x | x <- xs, x < s] ++ [s] ++ myQuicksort [x | x <- xs, x >= s]
 
---Ex11--
+--Ex11 --
+--Bubble
 
+myBubblesort2 :: (Ord a) => [a] -> ([a], Int)
+myBubblesort2 [] = ([], 0)
+myBubblesort2 lista = bolhaOrd2 (lista, 0) (length lista)
+
+bolhaOrd2 :: (Ord a, Num t, Num b, Eq t) => ([a], b) -> t -> ([a], b)
+bolhaOrd2 (lista, count) 0 = (lista, count)
+bolhaOrd2 (lista, count) n = bolhaOrd2 (troca2 (lista, count)) (n -1)
+
+troca2 :: (Ord a, Num b) => ([a], b) -> ([a], b)
+troca2 ([x], cont) = ([x], cont)
+troca2 ((x : y : zs), cont) =
+  if x > y
+    then add (troca2 ((x : zs), cont + 1)) y
+    else add (troca2 ((y : zs), cont + 1)) x
+  where
+    add (lista, count) a = (a : lista, count)
+
+-- Selection
+
+mySelectionsort2 :: Ord a => [a] -> ([a], Int)
+mySelectionsort2 lista = selectionAUX lista 0
+
+selectionAUX :: (Ord a) => [a] -> Int -> ([a], Int)
+selectionAUX [] n = ([], n)
+selectionAUX (x : xs) n =
+  let (least, n_num) = minimo2 (x : xs) n
+
+      remove2 _ [] = []
+      remove2 n (h : t) =
+        if (n == h)
+          then t
+          else h : (remove2 n t)
+
+      add (lst, n) y = (y : lst, n)
+   in add (selectionAUX (remove2 least (x : xs)) n_num) least
+
+minimo2 :: (Ord a) => [a] -> Int -> (a, Int)
+minimo2 [] _ = undefined
+minimo2 [x] cont = (x, cont)
+minimo2 (x : y : xs) cont
+  | x > y = minimo2 (y : xs) (cont + 1)
+  | otherwise = minimo2 (x : xs) (cont + 1)
+
+--Insertion
+
+myInsertionsort2 :: (Ord a) => [a] -> ([a], Int)
+myInsertionsort2 [] = ([], 0)
+myInsertionsort2 [x] = ([x], 0)
+myInsertionsort2 (h : t) =
+  let (sorted_tail, n) = myInsertionsort2 t
+
+      (lst, n1) = insereOrd2 h sorted_tail n
+   in (lst, n1)
+
+insereOrd2 :: (Ord a) => a -> [a] -> Int -> ([a], Int)
+insereOrd2 x [] n = ([x], n)
+insereOrd2 x (h : t) n =
+  if (x <= h)
+    then ((x : h : t), n + 1)
+    else add (insereOrd2 x t (n + 1)) h
+  where
+    add (list, n) y = (y : list, n)
+
+--Quick
+quickAux :: [a] -> Int -> (a -> Bool) -> ([a], Int)
+quickAux [] n _ = ([], n)
+quickAux (x : xs) n cond =
+  if (cond x)
+    then add (quickAux xs (n + 1) cond) x
+    else quickAux xs (n + 1) cond
+  where
+    add (list, n) y = (y : list, n)
+
+myQuicksort2 :: (Ord a) => [a] -> ([a], Int)
+myQuicksort2 [] = ([], 0)
+myQuicksort2 (piv : xs) =
+  let (left, n_L) = quickAux xs 0 (<= piv)
+      (right, n_R) = quickAux xs 0 (> piv)
+      (sorted_L, n1_L) = myQuicksort2 left
+      (sorted_R, n1_R) = myQuicksort2 right
+   in (sorted_L ++ [piv] ++ sorted_R, n_L + n_R + n1_L + n1_R)
 --Ex12
+--Bubble
+myBubblesort3 :: (Ord a) => [a] -> ([a], Int)
+myBubblesort3 [] = ([], 0)
+myBubblesort3 lista = bolhaOrd3 (lista, 0) (length lista)
+
+bolhaOrd3 :: (Ord a, Num t, Num b, Eq t) => ([a], b) -> t -> ([a], b)
+bolhaOrd3 (lista, count) 0 = (lista, count)
+bolhaOrd3 (lista, count) n = bolhaOrd3 (troca3 (lista, count)) (n -1)
+
+troca3 :: (Ord a, Num b) => ([a], b) -> ([a], b)
+troca3 ([x], cont) = ([x], cont)
+troca3 ((x : y : zs), cont) =
+  if x > y
+    then add (troca3 ((y : zs), cont + 1)) x
+    else add (troca3 ((x : zs), cont + 1)) y
+  where
+    add (lista, count) a = (a : lista, count)
+
+-- Selection
+
+mySelectionsort3 :: Ord a => [a] -> ([a], Int)
+mySelectionsort3 lista = selectionAUX2 lista 0
+
+selectionAUX2 :: (Ord a) => [a] -> Int -> ([a], Int)
+selectionAUX2 [] n = ([], n)
+selectionAUX2 (x : xs) n =
+  let (least, n_num) = minimo3 (x : xs) n
+
+      remove3 _ [] = []
+      remove3 n (h : t) =
+        if (n == h)
+          then t
+          else h : (remove3 n t)
+
+      add (lst, n) y = (y : lst, n)
+   in add (selectionAUX2 (remove3 least (x : xs)) n_num) least
+
+minimo3 :: (Ord a) => [a] -> Int -> (a, Int)
+minimo3 [] _ = undefined
+minimo3 [x] cont = (x, cont)
+minimo3 (x : y : xs) cont
+  | x > y = minimo3 (x : xs) (cont + 1)
+  | otherwise = minimo3 (y : xs) (cont + 1)
+
+--Insertion
+
+myInsertionsort3 :: (Ord a) => [a] -> ([a], Int)
+myInsertionsort3 [] = ([], 0)
+myInsertionsort3 [x] = ([x], 0)
+myInsertionsort3 (h : t) =
+  let (sorted_tail, n) = myInsertionsort3 t
+
+      (lst, n1) = insereOrd3 h sorted_tail n
+   in (lst, n1)
+
+insereOrd3 :: (Ord a) => a -> [a] -> Int -> ([a], Int)
+insereOrd3 x [] n = ([x], n)
+insereOrd3 x (h : t) n =
+  if (x >= h)
+    then ((x : h : t), n + 1)
+    else add (insereOrd3 x t (n + 1)) h
+  where
+    add (list, n) y = (y : list, n)
+
+--Quick
+quickAux2 :: [a] -> Int -> (a -> Bool) -> ([a], Int)
+quickAux2 [] n _ = ([], n)
+quickAux2 (x : xs) n cond =
+  if (cond x)
+    then quickAux2 xs (n + 1) cond
+    else add (quickAux2 xs (n + 1) cond) x
+  where
+    add (list, n) y = (y : list, n)
+
+myQuicksort3 :: (Ord a) => [a] -> ([a], Int)
+myQuicksort3 [] = ([], 0)
+myQuicksort3 (piv : xs) =
+  let (left, n_L) = quickAux2 xs 0 (<= piv)
+      (right, n_R) = quickAux2 xs 0 (> piv)
+      (sorted_L, n1_L) = myQuicksort3 left
+      (sorted_R, n1_R) = myQuicksort3 right
+   in (sorted_L ++ [piv] ++ sorted_R, n_L + n_R + n1_L + n1_R)
