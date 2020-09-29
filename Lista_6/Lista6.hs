@@ -3,7 +3,7 @@ paridade :: Integral a => [a] -> [Bool]
 paridade lista = map (even) lista
 
 --Ex2
-prefixos :: [[a]] -> [[a]]
+prefixos :: [String] -> [String]
 prefixos lista = map (take 3) lista
 
 --Ex3
@@ -13,9 +13,9 @@ saudacao lista = map ("Oi " ++) lista
 --Ex4
 filtrar :: (a -> Bool) -> [a] -> [a]
 filtrar _ [] = []
-filtrar p (x : xs)
-  | p x = x : filtrar p xs
-  | otherwise = filtrar p xs
+filtrar func (x : xs)
+  | func x = x : filtrar func xs
+  | otherwise = filtrar func xs
 
 filtrarCompr :: (a -> Bool) -> [a] -> [a]
 filtrarCompr func lista = [x | x <- lista, func x]
@@ -215,6 +215,7 @@ myQuicksort2 (piv : xs) =
       (sorted_L, n1_L) = myQuicksort2 left
       (sorted_R, n1_R) = myQuicksort2 right
    in (sorted_L ++ [piv] ++ sorted_R, n_L + n_R + n1_L + n1_R)
+
 --Ex12
 --Bubble
 myBubblesort3 :: (Ord a) => [a] -> ([a], Int)
