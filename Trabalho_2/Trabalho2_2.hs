@@ -1,13 +1,19 @@
+--Alunos:
+--Loredana Devico e Robson Roberto
 --TODO: Ex6
 data Exp a
   = Val a -- um numero
   | Add (Exp a) (Exp a) -- soma de duas expressoes
   | Sub (Exp a) (Exp a) --subtração
+  | Mult (Exp a) (Exp a)
+  | Pot (Exp a) (Exp a)
 
-avalia :: Num a => Exp a -> a
+avalia :: Floating a => Exp a -> a
 avalia (Val x) = x
 avalia (Add exp1 exp2) = (avalia exp1) + (avalia exp2)
 avalia (Sub exp1 exp2) = (avalia exp1) - (avalia exp2)
+avalia (Mult exp1 exp2) = (avalia exp1) * (avalia exp2)
+avalia (Pot exp1 exp2) = (avalia exp1) ** (avalia exp2)
 
 --Ex7
 
@@ -99,6 +105,17 @@ msgRecebidas =
 
 --B)
 --Ordenar com bubble pelo contato
+myBubblesort [] = []
+myBubblesort lista = bolhaOrd lista (length lista)
+
+bolhaOrd lista 0 = lista
+bolhaOrd lista n = bolhaOrd (troca lista) (n -1)
+
+troca [x] = [x]
+troca (x : y : zs)
+  | x > y = y : troca (x : zs)
+  | otherwise = x : troca (y : zs)
+
 --C)
 --Ordenar com Quick pela data e hora
 --D)ultimas duas msgs de um contato x (usar a funçao de cima)
@@ -163,7 +180,8 @@ arvEA = NoEA ('+', NoEA ('*', Folha 10, Folha 5), Folha 7)
 --}
 
 -- inOrder = 10*5+7
+
 inOrder :: Show a => ArvBinEA a -> [Char]
 inOrder Vazia = []
-inOrder (Folha valor) = show (valor)
+inOrder (Folha valor) = show valor
 inOrder (NoEA (n, esq, dir)) = inOrder esq ++ [n] ++ inOrder dir
