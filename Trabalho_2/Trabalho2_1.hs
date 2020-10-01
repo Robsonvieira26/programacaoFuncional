@@ -1,5 +1,5 @@
 --Alunos:
---Loredana Devico e Robson Roberto
+--Loredana Devico e Robson Vieira
 --Listas
 l1 :: [Integer]
 l1 = [1 .. 1000]
