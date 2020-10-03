@@ -40,3 +40,17 @@ Acreditamos que a necessidade da variação 2 tenha um desempenho melhor princip
 | 1001000              | 346336               | l7     |
 
 Em questões de interações a variação 2 é superior pois em media realiza menos testes que sua concorrente. Entretanto devido a maior divergência das duas serem na escolha do pivô esse é o ponto que causa tal divergência. Dependendo  da complexidade da lista a ser ordenada a Variação 1 tem vantagem. Considerando os testes a cima elegemos a Variação 2 como a melhor em relação a outra.
+
+## Questão 5
+
+| Bubble - V3 | Selection - V2 | QuickSort - V2 |Listas |
+| ----------- | -------------- | -------------- |  ------ |
+| 999         | 499500         | 503500         |      l1     |
+| 499500      | 499500         | 172165         |       l2     |
+| 500500      | 500500         | 503505         |       l3     |
+| 500499      | 500500         | 173169         |       l4     |
+| 2000997     | 2001000        | 1009007        |       l5     |
+| 1500500     | 2001000        | 347668         |       l6     |
+| 2000997     | 2001000        | 346336         |       l7     |
+
+Observando as comparações e a velocidade aparente de execução nos algoritmos o QuickSort mesmo comparando mais vezes que alguns dos outros métodos ainda possui um tempo de resposta aparentemente maior.

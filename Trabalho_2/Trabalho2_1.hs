@@ -184,7 +184,6 @@ bubbleSort3Cont l =
    in format (bubble (l, -1, 0))
 
 --Resposta no arquivo Respostas.MD
-
 --Ex3
 -- Variação 1
 selectionSortEx3 :: (Ord a) => [a] -> [a]
@@ -350,4 +349,4 @@ bucketSort l1 =
       finalList = foldr1 (++) sortedBuckets
    in finalList
 
---Todo:--Resposta no arquivo Respostas.MD
+--Resposta no arquivo Respostas.MD
