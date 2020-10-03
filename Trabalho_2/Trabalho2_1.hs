@@ -307,4 +307,47 @@ quickSortCount2 lst =
    in (sortedL ++ [piv] ++ sortedR, n1 + n_L + n_R + checks + 3) -- Comps. atuais + comps recursivas + comps do deletaPrimOcorrencia + 3 comps. do foldr1
 
 --Resposta no arquivo Respostas.MD
---Todo: Questão 5
+
+-- Ex5
+
+merge :: (Ord a) => [a] -> [a] -> [a]
+merge [] [] = []
+merge l1 [] = l1
+merge [] l2 = l2
+merge (a : as) (b : bs)
+  | a > b = b : (merge (a : as) bs)
+  | otherwise = a : (merge as (b : bs))
+
+mergeSort :: (Ord a) => [a] -> [a]
+mergeSort [] = []
+mergeSort [x] = [x]
+mergeSort lst =
+  let left = mergeSort (take ((length lst) `div` 2) lst)
+      right = mergeSort (drop ((length lst) `div` 2) lst)
+   in merge left right
+
+-- Bucket Sort
+sortIntoBuckets :: Int -> Int -> Int -> Int -> [[Int]] -> [[Int]]
+sortIntoBuckets num k m n [bucket] = if ((num * k) `div` m) <= n then [num : bucket] else [bucket]
+sortIntoBuckets num k m n (bucket : buckets)
+  | ((num * k) `div` m) <= n = (num : bucket) : buckets
+  | otherwise = bucket : (sortIntoBuckets num k m (n + 1) buckets)
+
+bucketSort :: [Int] -> [Int]
+bucketSort [] = []
+bucketSort [x] = [x]
+bucketSort l1 =
+  let k = length l1
+
+      m = foldr1 (max) l1
+
+      buckets = [[] | _ <- [1 .. k]]
+
+      newBuckets = foldr (\x -> sortIntoBuckets x k m 1) buckets l1
+
+      sortedBuckets = map (mergeSort) newBuckets
+
+      finalList = foldr1 (++) sortedBuckets
+   in finalList
+
+--Todo:--Resposta no arquivo Respostas.MD

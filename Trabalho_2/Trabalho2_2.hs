@@ -1,4 +1,4 @@
---Alunos:
+--Alunos
 --Loredana Devico e Robson Roberto
 data Exp a
   = Val a -- um numero
@@ -29,7 +29,7 @@ data Hora
 
 validaHora :: Int -> Bool
 validaHora h
-  | h >= 0 && h <= 11 = True
+  | h > 0 && h <= 11 = True
   | otherwise = False
 
 validaMin :: Int -> Bool
@@ -40,86 +40,118 @@ validaMin m
 horasDecorridas :: Hora -> Int
 horasDecorridas (AM hora min)
   | validaHora (hora) == True && validaMin (min) == True = hora
-  | otherwise = -1
+  | otherwise = undefined
 horasDecorridas (PM hora min)
   | validaHora (hora) == True && validaMin (min) == True = 12 + hora
-  | otherwise = -1
+  | otherwise = undefined
 
 minutosDecorridos :: Hora -> Int
 minutosDecorridos (AM hora min)
   | validaHora (hora) == True && validaMin (min) == True = hora * 60 + min
-  | otherwise = -1
+  | otherwise = undefined
 minutosDecorridos (PM hora min)
   | validaHora (hora) == True && validaMin (min) == True = ((12 + hora) * 60) + min
-  | otherwise = -1
+  | otherwise = undefined
 
 segundosDecorridos :: Hora -> Int
 segundosDecorridos (AM hora min)
   | validaHora (hora) == True && validaMin (min) == True = (hora * 60 + min) * 60
-  | otherwise = -1
+  | otherwise = undefined
 segundosDecorridos (PM hora min)
   | validaHora (hora) == True && validaMin (min) == True = (((12 + hora) * 60) + min) * 60
-  | otherwise = -1
+  | otherwise = undefined
 
 --Ex8
-type Contato = String
-
-type Texto = String
 
 type Data = (Int, Int, Int)
 
-data Mensagem
-  = WhatsApp Contato Texto Hora Data
-  | LinkedIn Contato Texto Hora Data
-  | Facebook Contato Texto Hora Data
-  deriving (Eq, Ord)
+precede :: Data -> Data -> Bool
+precede (d1, m1, y1) (d2, m2, y2)
+  | y1 > y2 = False
+  | y1 == y2 && m1 > m2 = False
+  | y1 == y2 && m1 == m2 && d1 > d2 = False
+  | otherwise = True
 
---A) lista de mensagens
+data Contato = Nome String | Fone String
+  deriving (Eq, Show)
+
+data Mensagem = Msg Contato String Data Hora String
+  deriving (Show)
+
+--A)
 msgRecebidas :: [Mensagem]
 msgRecebidas =
-  [ (WhatsApp "Fulano" "Mensagem 1" (AM 10 30) (13, 08, 20)),
-    (LinkedIn "123456" "Mensagem 2" (AM 10 31) (13, 08, 20)),
-    (Facebook "Fulana" "Mensagem 3" (AM 10 32) (13, 08, 20)),
-    (WhatsApp "Fulana" "Mensagem 4" (AM 10 33) (13, 08, 20)),
-    (WhatsApp "Fulano" "Mensagem 5" (AM 10 37) (13, 08, 20)),
-    (Facebook "Fulana" "Mensagem 6" (AM 11 30) (13, 08, 20)),
-    (WhatsApp "Fulana" "Mensagem 7" (AM 11 35) (13, 08, 20)),
-    (Facebook "123456" "Mensagem 8" (AM 11 37) (13, 08, 20)),
-    (LinkedIn "Fulano" "Mensagem 9" (AM 11 39) (13, 08, 20)),
-    (WhatsApp "Fulano" "Mensagem 11" (AM 11 42) (13, 08, 20)),
-    (LinkedIn "Fulana" "Mensagem 11" (AM 11 42) (13, 08, 20)),
-    (Facebook "123456" "Mensagem 12" (AM 11 53) (13, 08, 20)),
-    (WhatsApp "Fulano" "Mensagem 13" (AM 11 53) (13, 08, 20)),
-    (WhatsApp "Fulana" "Mensagem 14" (AM 11 54) (13, 08, 20)),
-    (LinkedIn "Fulana" "Mensagem 15" (AM 11 54) (13, 08, 20)),
-    -- ======================================================
-    (Facebook "Fulano" "Mensagem 16" (PM 3 25) (14, 08, 20)),
-    (LinkedIn "Fulano" "Mensagem 17" (PM 3 25) (14, 08, 20)),
-    (WhatsApp "Fulano" "Mensagem 18" (PM 3 24) (14, 08, 20)),
-    (LinkedIn "Fulana" "Mensagem 19" (PM 3 27) (14, 08, 20)),
-    (LinkedIn "Fulano" "Mensagem 20" (PM 3 30) (14, 08, 20)),
-    (WhatsApp "Fulano" "Mensagem 21" (PM 3 33) (14, 08, 20)),
-    (Facebook "Fulana" "Mensagem 22" (PM 3 49) (14, 08, 20)),
-    (WhatsApp "123456" "Mensagem 23" (PM 4 50) (14, 08, 20)),
-    (WhatsApp "Fulano" "Mensagem 24" (PM 4 57) (14, 08, 20)),
-    (LinkedIn "Fulana" "Mensagem 25" (PM 4 30) (14, 08, 20)),
-    (WhatsApp "Fulano" "Mensagem 26" (PM 4 30) (14, 08, 20)),
-    (Facebook "123456" "Mensagem 27" (PM 4 30) (14, 08, 20)),
-    (LinkedIn "Fulana" "Mensagem 28" (PM 4 30) (14, 08, 20)),
-    (LinkedIn "123456" "Mensagem 29" (PM 4 30) (14, 08, 20)),
-    (Facebook "Fulano" "Mensagem 30" (PM 4 30) (14, 08, 20))
+  [ (Msg (Nome "Fulano") "Mensagem 1" (13, 08, 20) (AM 10 30) "WhatsApp"),
+    (Msg (Fone "123456") "Mensagem 2" (13, 08, 20) (AM 10 31) "WhatsApp"),
+    (Msg (Nome "Fulana") "Mensagem 3" (13, 08, 20) (AM 10 32) "LinkedIn"),
+    (Msg (Nome "Fulana") "Mensagem 4" (13, 08, 20) (AM 10 33) "WhatsApp"),
+    (Msg (Nome "Fulano") "Mensagem 5" (13, 08, 20) (AM 10 37) "Facebook"),
+    (Msg (Nome "Fulana") "Mensagem 6" (13, 08, 20) (AM 11 30) "Facebook"),
+    (Msg (Nome "Fulana") "Mensagem 7" (13, 08, 20) (AM 11 35) "WhatsApp"),
+    (Msg (Fone "123456") "Mensagem 8" (13, 08, 20) (AM 11 37) "LinkedIn"),
+    (Msg (Nome "Fulano") "Mensagem 9" (13, 08, 20) (AM 11 39) "Facebook"),
+    (Msg (Nome "Fulano") "Mensagem 11" (13, 08, 20) (AM 11 42) "Facebook"),
+    (Msg (Nome "Fulana") "Mensagem 11" (13, 08, 20) (AM 11 42) "WhatsApp"),
+    (Msg (Fone "123456") "Mensagem 12" (13, 08, 20) (AM 11 53) "Facebook"),
+    (Msg (Nome "Fulano") "Mensagem 13" (13, 08, 20) (AM 11 53) "WhatsApp"),
+    (Msg (Nome "Fulana") "Mensagem 14" (13, 08, 20) (AM 11 54) "Facebook"),
+    (Msg (Nome "Fulana") "Mensagem 15" (13, 08, 20) (AM 11 54) "WhatsApp"),
+    -- =======(Nome ========)=======================================
+    (Msg (Nome "Fulano") "Mensagem 16" (14, 08, 20) (PM 3 25) "WhatsApp"),
+    (Msg (Nome "Fulano") "Mensagem 17" (14, 08, 20) (PM 3 25) "LinkedIn"),
+    (Msg (Nome "Fulano") "Mensagem 18" (14, 08, 20) (PM 3 24) "Facebook"),
+    (Msg (Nome "Fulana") "Mensagem 19" (14, 08, 20) (PM 3 27) "Facebook"),
+    (Msg (Nome "Fulano") "Mensagem 20" (14, 08, 20) (PM 3 30) "WhatsApp"),
+    (Msg (Nome "Fulano") "Mensagem 21" (14, 08, 20) (PM 3 33) "Facebook"),
+    (Msg (Nome "Fulana") "Mensagem 22" (14, 08, 20) (PM 3 49) "WhatsApp"),
+    (Msg (Fone "123456") "Mensagem 23" (14, 08, 20) (PM 4 50) "LinkedIn"),
+    (Msg (Nome "Fulano") "Mensagem 24" (14, 08, 20) (PM 4 57) "WhatsApp"),
+    (Msg (Nome "Fulana") "Mensagem 25" (14, 08, 20) (PM 4 30) "Facebook"),
+    (Msg (Nome "Fulano") "Mensagem 26" (14, 08, 20) (PM 4 30) "WhatsApp"),
+    (Msg (Fone "123456") "Mensagem 27" (14, 08, 20) (PM 4 30) "LinkedIn"),
+    (Msg (Nome "Fulana") "Mensagem 28" (14, 08, 20) (PM 4 30) "Facebook"),
+    (Msg (Fone "123456") "Mensagem 29" (14, 08, 20) (PM 4 30) "WhatsApp"),
+    (Msg (Nome "Fulano") "Mensagem 30" (14, 08, 20) (PM 4 30) "LinkedIn")
   ]
 
 --B)
---Ordenar com bubble pelo contato
+ordenarPorContato :: [Mensagem] -> [Mensagem]
+ordenarPorContato [] = []
+ordenarPorContato list = bubble list (length list)
 
---  ((_ (Nome x) _ _ _): y : zs)
---   | x > y = y : troca (x : zs)
---   | otherwise = x : troca (y : zs)
+bubble :: [Mensagem] -> Int -> [Mensagem]
+bubble list 0 = list
+bubble list n = bubble (troca list) (n -1)
+
+troca :: [Mensagem] -> [Mensagem]
+troca [x] = [x]
+troca (msg1 : msg2 : xs)
+  | comparacao msg1 msg2 = msg2 : troca (msg1 : xs)
+  | otherwise = msg1 : troca (msg2 : xs)
+  where
+    comparacao (Msg (Nome _) _ _ _ _) (Msg (Fone _) _ _ _ _) = True -- Ocorre troca, fone vem primeiro
+    comparacao (Msg (Fone _) _ _ _ _) (Msg (Nome _) _ _ _ _) = False -- Não ocorre troca
+    comparacao (Msg (Nome nome1) _ _ _ _) (Msg (Nome nome2) _ _ _ _) = nome1 > nome2
+    comparacao (Msg (Fone nome1) _ _ _ _) (Msg (Fone nome2) _ _ _ _) = nome1 > nome2
 
 --C)
---Ordenar com Quick pela data e hora
---D)ultimas duas msgs de um contato x (usar a funçao de cima)
+msgProcede :: Mensagem -> Mensagem -> Bool
+msgProcede (Msg _ _ data1 hora1 _) (Msg _ _ data2 hora2 _)
+  | data1 == data2 = (minutosDecorridos hora1) < (minutosDecorridos hora2)
+  | otherwise = precede data1 data2
+
+ordenaDataHora :: [Mensagem] -> [Mensagem]
+ordenaDataHora [] = []
+ordenaDataHora (piv : xs) =
+  (ordenaDataHora [x | x <- xs, (msgProcede x piv) == False])
+    ++ [piv]
+    ++ (ordenaDataHora [x | x <- xs, (msgProcede x piv) == True])
+
+--D)
+ultimasMsgs :: Contato -> [Mensagem] -> [Mensagem]
+ultimasMsgs contact msgs = take 2 [(Msg c m d h a) | (Msg c m d h a) <- msgOrd, c == contact]
+  where
+    msgOrd = ordenaDataHora msgs
 
 --Ex9)
 data ArvBinInt
