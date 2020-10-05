@@ -58,6 +58,8 @@ gera1 = [x ^ 2 | x <- listaPadrão, odd x, x > 4, x < 15]
 gera2 :: [(Integer, Integer)]
 gera2 = [(x, y) | x <- listaPadrão, x <= 4, y <- [x .. x * 2]]
 
+gera21 a b = [(x, y) | x <- [a .. b], y <- [x .. x * 2]]
+
 --C
 
 gera3 :: [[Integer]]

@@ -178,7 +178,7 @@ arvDados =
 --A)
 internos :: ArvBinInt -> [Int]
 internos Nulo = []
-internos (No n Nulo Nulo) = []
+internos (No _ Nulo Nulo) = []
 internos (No n esq dir) = [n] ++ internos esq ++ internos dir
 
 --B)
@@ -189,7 +189,7 @@ somaNos (No n esq dir) = n + somaNos esq + somaNos dir --soma n com a soma dos f
 --C)
 
 pertenceArv :: Int -> ArvBinInt -> Bool
-pertenceArv x Nulo = False
+pertenceArv _ Nulo = False
 pertenceArv x (No v esq dir) =
   x == v --compara o valor com o no
     || if x < v --escolhe pra qual lado da arvore vai
