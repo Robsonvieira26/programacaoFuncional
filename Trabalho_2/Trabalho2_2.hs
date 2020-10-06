@@ -6,6 +6,7 @@ data Exp a
   | Sub (Exp a) (Exp a) --subtração
   | Mult (Exp a) (Exp a)
   | Pot (Exp a) (Exp a)
+  deriving (Show)
 
 avalia :: Floating a => Exp a -> a
 avalia (Val x) = x
@@ -14,10 +15,11 @@ avalia (Sub exp1 exp2) = (avalia exp1) - (avalia exp2)
 avalia (Mult exp1 exp2) = (avalia exp1) * (avalia exp2)
 avalia (Pot exp1 exp2) = (avalia exp1) ** (avalia exp2)
 
-expre1 :: Exp Integer
+--B)
+expre1 :: Num a => Exp a
 expre1 = (Mult (Add (Val 3) (Val 12)) (Pot (Sub (Val 15) (Val 5)) (Mult (Val 1) (Val 3))))
 
-expre2 :: Exp Integer
+expre2 :: Num a => Exp a
 expre2 = (Sub (Val 0) (Mult (Add (Add (Val 6) (Val 8)) (Sub (Val 1) (Val 5))) (Add (Val 2) (Pot (Val 6) (Val 2)))))
 
 --Ex7
