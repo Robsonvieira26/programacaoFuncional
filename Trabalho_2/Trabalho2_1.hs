@@ -291,7 +291,7 @@ quickSort2 lst =
   let firstThree = take 3 lst
       piv =
         if length (firstThree) < 3
-          then firstThree !! 0
+          then firstThree !! 0 --acesso ao firstThree no index 0
           else foldr1 (min) (firstThree)
 
       deletaPrimOcorrencia _ [] = []

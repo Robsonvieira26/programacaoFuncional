@@ -214,12 +214,12 @@ arvEA = NoEA ('+', NoEA ('*', Folha 10, Folha 5), Folha 7)
    10 5
 --}
 
-calculaArv :: (Fractional a, Integral a) => ArvBinEA a -> a
+calculaArv :: Floating a => ArvBinEA a -> a
 calculaArv Vazia = 0
 calculaArv (Folha valor) = valor
 calculaArv (NoEA (operacao, esq, dir))
   | (operacao == '+') = (calculaArv esq) + (calculaArv dir)
   | (operacao == '*') = (calculaArv esq) * (calculaArv dir)
   | (operacao == '/') = (calculaArv esq) / (calculaArv dir)
-  | (operacao == '^') = (calculaArv esq) ^ (calculaArv dir)
+  | (operacao == '^') = (calculaArv esq) ** (calculaArv dir)
   | (operacao == '-') = (calculaArv esq) - (calculaArv dir)
