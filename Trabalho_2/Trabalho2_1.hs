@@ -51,9 +51,11 @@ selectionSort [] = []
 selectionSort [x] = [x]
 selectionSort (x : xs) =
   let least = foldr1 (min) (x : xs)
-
       remove _ [] = []
-      remove n (h : t) = if n == h then t else h : (remove n t)
+      remove n (h : t) =
+        if n == h
+          then t
+          else h : (remove n t)
    in [least] ++ selectionSort (remove least (x : xs))
 
 -- Insertion Sort
@@ -105,10 +107,10 @@ bubbleSort2 lst =
       split lst = (take (length lst - 1) lst, drop (length lst - 1) lst)
 
       bubble [x] = [x]
-      bubble l = (bubble haTrocar) ++ ultimoElm
+      bubble l = (bubble aTrocar) ++ ultimoElm
         where
           listaMod = troca l
-          (haTrocar, ultimoElm) = split listaMod
+          (aTrocar, ultimoElm) = split listaMod
    in bubble lst
 
 -- Variação 3
@@ -127,10 +129,10 @@ bubbleSort3 l =
       bubble ([x], flag) = ([x], flag)
       bubble (lst, flag)
         | n_flag == 0 = (lst, flag)
-        | otherwise = (fst (bubble (parte_a_trocar, 0)) ++ ultimo_elem, 0)
+        | otherwise = (fst (bubble (paraTrocar, 0)) ++ ultElem, 0)
         where
-          (lista_trocada, n_flag) = troca (lst, flag)
-          (parte_a_trocar, ultimo_elem) = split lista_trocada
+          (listaTrocada, n_flag) = troca (lst, flag)
+          (paraTrocar, ultElem) = split listaTrocada
    in fst (bubble (l, -1))
 
 -- COM CONTAGEM
@@ -173,11 +175,11 @@ bubbleSort2Cont lst =
 
       bubble :: (Ord a) => ([a], Int) -> ([a], Int)
       bubble ([x], c) = ([x], c)
-      bubble (l, c) = (proxima_etapa ++ ultimo_elem, rec_c)
+      bubble (l, c) = (proxEtapa ++ ultElem, rec_c)
         where
-          (lista_trocada, c1) = (troca (l, c))
-          (parte_a_trocar, ultimo_elem) = split lista_trocada
-          (proxima_etapa, rec_c) = bubble (parte_a_trocar, c1)
+          (listaTrocada, c1) = (troca (l, c))
+          (paraTrocar, ultElem) = split listaTrocada
+          (proxEtapa, rec_c) = bubble (paraTrocar, c1)
    in bubble (lst, 0)
 
 -- Variação 3
@@ -197,11 +199,11 @@ bubbleSort3Cont l =
       bubble ([x], flag, c) = ([x], flag, c)
       bubble (lst, flag, c)
         | n_flag == 0 = (lst, flag, c)
-        | otherwise = (proxima_etapa ++ ultimo_elem, 0, rec_c)
+        | otherwise = (proxEtapa ++ ultElem, 0, rec_c)
         where
-          (lista_trocada, n_flag, c1) = troca (lst, flag, c)
-          (parte_a_trocar, ultimo_elem) = split lista_trocada
-          (proxima_etapa, _, rec_c) = bubble (parte_a_trocar, 0, c1)
+          (listaTrocada, n_flag, c1) = troca (lst, flag, c)
+          (paraTrocar, ultElem) = split listaTrocada
+          (proxEtapa, _, rec_c) = bubble (paraTrocar, 0, c1)
    in format (bubble (l, -1, 0))
 
 --Resposta no arquivo Respostas.MD
@@ -222,7 +224,10 @@ selectionSortEx3 (x : xs) =
 
 -- Variação 2
 removeMenor :: (Ord a) => (a, [a]) -> (a, [a])
-removeMenor (m, [x]) = if x < m then (x, [m]) else (m, [x])
+removeMenor (m, [x]) =
+  if x < m
+    then (x, [m])
+    else (m, [x])
 removeMenor (menor, (x : xs))
   | x < menor = add menor (removeMenor (x, xs))
   | otherwise = add x (removeMenor (menor, xs))
@@ -238,7 +243,10 @@ selectionSort2 lst =
 
 -- COM CONTAGEM
 removeMenorCont :: (Ord a) => (a, [a], Int) -> (a, [a], Int)
-removeMenorCont (m, [x], c) = if x < m then (x, [m], c + 1) else (m, [x], c + 1)
+removeMenorCont (m, [x], c) =
+  if x < m
+    then (x, [m], c + 1)
+    else (m, [x], c + 1)
 removeMenorCont (menor, (x : xs), c1)
   | x < menor = add menor (removeMenorCont (x, xs, c1 + 1))
   | otherwise = add x (removeMenorCont (menor, xs, c1 + 1))
@@ -250,9 +258,8 @@ selectionSort2Cont [] = ([], 0)
 selectionSort2Cont [x] = ([x], 0)
 selectionSort2Cont (x : xs) =
   let (least, novoUlt, cont) = removeMenorCont (x, xs, 0)
-
-      (proxima_etapa, nCont) = selectionSort2Cont novoUlt
-   in (least : proxima_etapa, cont + nCont)
+      (proxEtapa, nCont) = selectionSort2Cont novoUlt
+   in (least : proxEtapa, cont + nCont)
 
 --Resposta no arquivo Respostas.MD
 
@@ -260,7 +267,10 @@ selectionSort2Cont (x : xs) =
 -- Variação 1
 divide :: (Ord a) => a -> [a] -> ([a], [a])
 divide _ [] = ([], [])
-divide x [e] = if e < x then ([e], []) else ([], [e])
+divide x [e] =
+  if e < x
+    then ([e], [])
+    else ([], [e])
 divide x (e : es)
   | e < x = addEsq e (divide x es)
   | otherwise = addDir e (divide x es)
@@ -288,7 +298,6 @@ quickSort2 lst =
       deletaPrimOcorrencia x (y : ys)
         | x == y = ys
         | otherwise = y : deletaPrimOcorrencia x ys
-
       (left, right) = divide piv (deletaPrimOcorrencia piv lst)
    in (quickSort2 left) ++ [piv] ++ (quickSort2 right)
 
@@ -310,7 +319,6 @@ quickSortCont :: (Ord a) => [a] -> ([a], Int)
 quickSortCont [] = ([], 0)
 quickSortCont (piv : xs) =
   let (left, right, n) = divideCont piv xs 0
-
       (sortedL, n_L) = quickSortCont left
       (sortedR, n_R) = quickSortCont right
    in (sortedL ++ [piv] ++ sortedR, n + n_L + n_R)
@@ -319,7 +327,6 @@ quickSortCount2 :: (Ord a) => [a] -> ([a], Int)
 quickSortCount2 [] = ([], 0)
 quickSortCount2 lst =
   let piv = foldr1 (min) (take 3 lst)
-
       deleteFrstOc :: (Ord a) => a -> [a] -> Int -> ([a], Int)
       deleteFrstOc _ [] n = ([], n)
       deleteFrstOc x (y : ys) n
@@ -327,9 +334,7 @@ quickSortCount2 lst =
         | otherwise = add y (deleteFrstOc x ys (n + 1))
         where
           add e (l, c) = (e : l, c)
-
       (novoUlt, checks) = deleteFrstOc piv lst 0
-
       (left, right, n1) = divideCont piv novoUlt 0
       (sortedL, n_L) = quickSortCount2 left
       (sortedR, n_R) = quickSortCount2 right
@@ -370,15 +375,10 @@ bucketSort [] = []
 bucketSort [x] = [x]
 bucketSort l1 =
   let k = length l1
-
       m = foldr1 (max) l1
-
       buckets = [[] | _ <- [1 .. k]]
-
       newBuckets = foldr (\x -> sortIntoBuckets x k m 1) buckets l1
-
       sortedBuckets = map (mergeSort) newBuckets
-
       finalList = foldr1 (++) sortedBuckets
    in finalList
 
